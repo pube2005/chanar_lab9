@@ -26,7 +26,7 @@ def node(n,y,label):
     d.polygon([(600,y),(900,y+60),(600,y+120),(300,y+60)],fill='#fff4d9',outline=ink,width=3)
     b=d.textbbox((0,0),label,font=f)
     text(600-b[2]/2,y+42,label)
-    text(190,y+43,'N'+str(n))
+    text(205,y+3,'N'+str(n))
 p='scholarship_'
 text(90,50,'scholarship() control flow graph',title)
 text(90,125,'Each || and && operand is a separate decision. T / F = condition outcome.')
@@ -51,7 +51,8 @@ for n in range(1,10):
     else:
         arrow([(600,y+120),(600,ys[n+1])],f'E{edge} T  '+p+true_names[n],(650,y+155)); edge+=1
         dest=ys[n+2]+60
-        arrow([(300,y+60),(80,y+60),(80,dest),(300,dest)],f'E{edge} F  '+p+false_names[n],(950,y+15)); edge+=1
+        lane = 80 if n == 5 else 140
+        arrow([(300,y+60),(lane,y+60),(lane,dest),(300,dest)],f'E{edge} F  '+p+false_names[n],(950,y+15)); edge+=1
 # Bypass labels above share a horizontal guide with their source to make the edge association explicit.
 for n in (5,7):
     y=ys[n]
