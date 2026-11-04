@@ -63,3 +63,42 @@ text(90,2910,'Validation precedes hasViolation: invalid input always throws, eve
 text(90,2970,'The left bypasses show short circuit evaluation of the scholarship && conditions.')
 text(90,3030,'Layout and edge mapping prepared explicitly with AI assistance; source: scripts/draw_cfg.py.',small)
 im.save(ROOT/'cfg.png')
+
+# Editable diagrams.net document with the same explicitly positioned nodes and edges.
+import xml.etree.ElementTree as ET
+mx = ET.Element('mxfile', host='app.diagrams.net')
+page = ET.SubElement(mx, 'diagram', name='scholarship CFG', id='scholarship')
+model = ET.SubElement(page, 'mxGraphModel', grid='1', page='1', pageWidth='2900', pageHeight='3150')
+graph = ET.SubElement(model, 'root')
+ET.SubElement(graph, 'mxCell', id='0')
+ET.SubElement(graph, 'mxCell', id='1', parent='0')
+def vertex(key, label, x, y, width, height, diamond=False):
+    style = ('rhombus;' if diamond else 'rounded=1;') + 'whiteSpace=wrap;html=0;fontSize=24;'
+    cell = ET.SubElement(graph, 'mxCell', id=key, value=label, style=style, vertex='1', parent='1')
+    ET.SubElement(cell, 'mxGeometry', x=str(x), y=str(y), width=str(width), height=str(height), attrib={'as':'geometry'})
+vertex('N0', 'N0 Entry', 380, 245, 440, 70)
+for n, label in enumerate(labels, 1):
+    vertex(f'N{n}', f'N{n}  {label}', 300, ys[n], 600, 120, True)
+returns={1:'throw IllegalArgumentException',2:'throw IllegalArgumentException',3:'throw IllegalArgumentException',4:'return 0',6:'return 100',8:'return 70',9:'return 50'}
+for n, label in returns.items():
+    vertex(f'R{n}', f'R{n}  {label} -> EXIT', 1870, ys[n]+22, 850, 76)
+vertex('R10', 'R10 return 0 -> EXIT', 380, ys[9]+245, 440, 70)
+def edge(number, source, target, label, lane=None):
+    style='edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;fontSize=20;labelBackgroundColor=#ffffff;'
+    if lane is not None: style+='exitX=0;exitY=0.5;entryX=0;entryY=0.5;'
+    elif target.startswith('R') and target!='R10': style+='exitX=1;exitY=0.5;entryX=0;entryY=0.5;'
+    else: style+='exitX=0.5;exitY=1;entryX=0.5;entryY=0;'
+    cell=ET.SubElement(graph,'mxCell',id=f'E{number}',value=f'E{number}  {label}',style=style,edge='1',parent='1',source=source,target=target)
+    geo=ET.SubElement(cell,'mxGeometry',relative='1',attrib={'as':'geometry'})
+    if lane is not None:
+        pts=ET.SubElement(geo,'Array',attrib={'as':'points'})
+        for y in (ys[int(source[1:])]+60,ys[int(target[1:])]+60):
+            ET.SubElement(pts,'mxPoint',x=str(lane),y=str(y))
+edge(0,'N0','N1',p+'negativeGpa_throws')
+number=1
+for n in range(1,10):
+    edge(number,f'N{n}',f'N{n+1}' if n in (5,7) else f'R{n}','T '+p+true_names[n]); number+=1
+    dest=f'N{n+2}' if n in (5,7) else (f'N{n+1}' if n<9 else 'R10')
+    edge(number,f'N{n}',dest,'F '+p+false_names[n],(80 if n==5 else 140) if n in (5,7) else None); number+=1
+ET.indent(mx)
+ET.ElementTree(mx).write(ROOT/'cfg.drawio',encoding='utf-8',xml_declaration=True)
