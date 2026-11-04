@@ -67,4 +67,12 @@ class ScholarshipCalculatorTest {
     @Test void scholarship_lowGpa_returns0() {
         assertEquals(0, calculator.scholarship(0.0, 0, false));
     }
+
+    // C: Zero iterations are rejected by gpa_emptyScores_throws and gpa_nullScores_throws.
+    @Test void gpa_singleGrade_returnsFour() {
+        assertEquals(4.0, calculator.gpa(new double[]{95}), 1e-12);
+    }
+    @Test void gpa_multipleGrades_returnsTwoPointFive() {
+        assertEquals(2.5, calculator.gpa(new double[]{95, 85, 75, 65}), 1e-12);
+    }
 }
