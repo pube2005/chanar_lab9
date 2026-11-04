@@ -1,0 +1,7 @@
+target/
+.idea/
+.DS_Store
+*.docx
+starter/
+starter.zip
+.verification/
