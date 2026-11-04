@@ -75,4 +75,27 @@ class ScholarshipCalculatorTest {
     @Test void gpa_multipleGrades_returnsTwoPointFive() {
         assertEquals(2.5, calculator.gpa(new double[]{95, 85, 75, 65}), 1e-12);
     }
+
+    // D: Expected grades come from the specification, including the exact 60 boundary.
+    @Test void letterGrade_sixty_returnsD() {
+        assertEquals("D", calculator.letterGrade(60));
+    }
+    @Test void letterGrade_justBelowSixty_returnsF() {
+        assertEquals("F", calculator.letterGrade(59.99));
+    }
+    @Test void letterGrade_justBelowSeventy_returnsD() {
+        assertEquals("D", calculator.letterGrade(69.99));
+    }
+    @Test void letterGrade_zero_returnsF() {
+        assertEquals("F", calculator.letterGrade(0));
+    }
+    @Test void letterGrade_hundred_returnsA() {
+        assertEquals("A", calculator.letterGrade(100));
+    }
+    @Test void letterGrade_justBelowNinety_returnsB() {
+        assertEquals("B", calculator.letterGrade(89.99));
+    }
+    @Test void letterGrade_ninety_returnsA() {
+        assertEquals("A", calculator.letterGrade(90));
+    }
 }
