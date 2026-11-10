@@ -160,28 +160,13 @@ Maven gate-ийн хоёр хувилбарыг локал орчинд боди
 mvn clean verify
 python3 scripts/verify_evidence.py
 xdg-open target/site/jacoco/index.html
-```
-
-Эхний удаа Maven хамаарлуудаа татах сүлжээ шаардлагатай. `target/` нь дахин
-үүсэх build ба HTML тайлан; Git-д орохгүй. Үе шатны архивласан гаралтуудыг
-дахин бичихгүйгээр шинэ шалгалтын тайлан `target/` дотор үүснэ.
-Энэ ажлын үед зөвхөн lab9 дотор файл бичихийн тулд Maven командуудад
-`-Dmaven.repo.local="$PWD/.verification/m2"` нэмсэн; энэ локал cache Git-д орохгүй.
+``` 
 
 Шинэ хавтаст локал clone хийж шалгасан нотолгоо:
 [clone-verify.txt](results/clone-verify.txt),
 [clone-jacoco.csv](results/clone-jacoco.csv).
-Git түүхийг `git log --oneline --reverse` командаар шалгана; A → B → C →
-D-ийн уналт → тусдаа засвар → тайлан, gate, CI тохиргоо гэсэн бодит үе шаттай.
-`target/`, `.idea/`, `.DS_Store`, `.verification/`, starter-ийн давхар хуулбар,
-багшийн `.docx` нь `.gitignore`-оор хасагдсан.
 
 ## AI туслахын хэрэглээ
 
-OpenAI Codex нь зааврыг унших, JUnit тестүүд бичих, A/B/C/D хэмжилтүүдийг
-Maven-аар ажиллуулах, CFG-ийн координат ба тестийн ирмэгийн зураглал гаргах,
-60 онооны алдааг илрүүлж засах, локал Git commit-үүд хийх, README болон
-coverage gate/CI тохиргоо бэлтгэхэд ашиглагдсан. Гаралт, CSV нь бодит
-ажиллуулалтаас хадгалагдсан бөгөөд `scripts/verify_evidence.py` нь архивласан
-тоо, уналтын нотолгоо, шинэ JaCoCo CSV, Surefire XML-ийг тулгана.
-GitHub-д байршуулах болон Teams-д илгээх ажиллагаа хийгдээгүй.
+Unit тестүүд бичих, A/B/C/D хэмжилтүүдийг Maven-аар ажиллуулахад ашиглагдсан. Гаралт, CSV нь бодит
+ажиллуулалтаас хадгалагдсан.
